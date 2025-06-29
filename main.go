@@ -2,16 +2,27 @@ package main
 
 import (
 	"Github-User-Activity/utils"
+	"flag"
 	"fmt"
-	"log"
 	"os"
 )
 
 func main() {
-	args := os.Args
-	if len(args) != 2 {
-		log.Fatal("Usage Github-User-Activity <username>")
+	var showEmails = flag.Bool("show-emails", false, "Show author emails in output")
+
+	flag.Usage = func() {
+		fmt.Fprintf(flag.CommandLine.Output(), "Usage: Github-User-Activity [--show-emails] <username>\n")
+		flag.PrintDefaults()
 	}
+
+	flag.Parse()
+
+	if flag.NArg() != 1 {
+		flag.Usage()
+		os.Exit(1)
+	}
+
+	userName := flag.Arg(0)
 	fmt.Println(`
  ██████╗ ██╗  ██╗    ███████╗████████╗ █████╗ ██╗     ██╗  ██╗███████╗██████╗ 
 ██╔════╝ ██║  ██║    ██╔════╝╚══██╔══╝██╔══██╗██║     ██║ ██╔╝██╔════╝██╔══██╗
@@ -21,6 +32,5 @@ func main() {
  ╚═════╝ ╚═╝  ╚═╝    ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
                                                                               
 	`)
-	userName := args[1]
-	utils.ProcessJsonArray(userName)
+	utils.ProcessJsonArray(userName, *showEmails)
 }

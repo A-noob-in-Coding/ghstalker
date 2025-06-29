@@ -10,7 +10,15 @@ import (
 	"strings"
 )
 
-func ProcessJsonArray(userName string) {
+func maskEmail(email string) string {
+	parts := strings.Split(email, "@")
+	if len(parts) != 2 {
+		return "*****"
+	}
+	return parts[0][:1] + "***@" + parts[1]
+}
+
+func ProcessJsonArray(userName string, showEmails bool) {
 	url := "https://api.github.com/users/" + userName + "/events"
 	resp, err := http.Get(url)
 	if err != nil || resp.StatusCode != 200 {
@@ -58,7 +66,12 @@ func ProcessJsonArray(userName string) {
 				fmt.Printf("\n%s %d:\n", label("Commit Number"), key.Int()+1)
 				fmt.Println(label("Message       :"), valueText(commit.Get("message").String()))
 				fmt.Println(label("Author Name   :"), valueText(commit.Get("author.name").String()))
-				fmt.Println(label("Author Email  :"), valueText(commit.Get("author.email").String()))
+				email := commit.Get("author.email").String()
+				if showEmails {
+					fmt.Println("Author Email:", email)
+				} else if email != "" {
+					fmt.Println("Author Email:", maskEmail(email)) // you write maskEmail()
+				}
 				return true
 			})
 		case "ReleaseEvent":
