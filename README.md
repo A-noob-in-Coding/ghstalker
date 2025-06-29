@@ -23,7 +23,7 @@ A simple command-line tool built in Go that fetches and displays recent activity
 This project uses the following external dependency:
 
 - `github.com/tidwall/gjson` - Fast JSON parser for Go
-
+- `github.com/fatih/color` - Color Formatting for CLI
 ## Installation
 
 1. Clone the repository:
