@@ -59,7 +59,7 @@ Run the application with a GitHub username as an argument:
 ```bash
 ./github-activity <username>
 ```
-to mask email
+default action is to mask emails, to show email use --show-emails flag
 ```
 ./github-activity --show-emails <username>
 ```
