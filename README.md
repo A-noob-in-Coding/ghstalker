@@ -37,29 +37,25 @@ This project uses the following external dependency:
 - `github.com/fatih/color` - Color Formatting for CLI
 ## Installation
 
-1. Clone the repository:
+-  Clone the repository:
 ```bash
 git clone <repository-url>
 cd Github-User-Activity
 ```
+#### Option 1 ( Build from source )
 
-2. Install dependencies:
 ```bash
-go mod init Github-User-Activity
-go get github.com/tidwall/gjson
+go mod download
+go build -o ghstalker
+./ghstalker
 ```
 
-3. Build the application:
-```bash
-go build -o github-activity
-```
 
-## Usage
-
-Run the application with a GitHub username as an argument:
+#### Option 2 ( Build and Run with Docker )
 
 ```bash
-./github-activity <username>
+docker build -t ghstalker .
+docker run --rm ghstalker <username>
 ```
 default action is to mask emails, to show email use --show-emails flag
 ```
